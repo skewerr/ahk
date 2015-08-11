@@ -136,7 +136,7 @@ return
     {
       run C:\Users\spoonm\AppData\Roaming\Microsoft\Windows\Libraries\
       WinWait, ahk_class CabinetWClass
-      WinMove, ahk_class CabinetWClass,, 887,58,406,323
+      WinMove, ahk_class CabinetWClass,, 887,67,406,323
       MacType() ; Restart MacType rendering.
       WinActivate, ahk_class CabinetWClass
     }
