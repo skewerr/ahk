@@ -77,28 +77,28 @@ return
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-^Numpad1:: WinMove, A,, 73,58,808,630
-^Numpad2:: WinMove,A,, 887,58,406,323
-^Numpad3:: WinMove,A,, 887,365,406,323
-^Numpad4:: WinMove,A,, 887,58,406,630
-^Numpad5:: WinMove, A,, 76, 83, 1214, 602
-^Numpad6:: WinMove,A,, 74,59,806,628
-^Numpad7:: WinMove,A,, 73,58,1220,630
-^Numpad8:: WinMove,A,, 73,58,607,630
-^Numpad9:: WinMove,A,, 686,58,607,630
+^Numpad1::    WinMove, A,,   73,   67,  808,  630
+^Numpad2::    WinMove, A,,  887,   67,  406,  323
+^Numpad3::    WinMove, A,,  887,  374,  406,  323
+^Numpad4::    WinMove, A,,  887,   67,  406,  630
+^Numpad5::    WinMove, A,,   76,   92, 1214,  602
+^Numpad6::    WinMove, A,,   74,   68,  806,  628
+^Numpad7::    WinMove, A,,   73,   67, 1220,  630
+^Numpad8::    WinMove, A,,   73,   67,  607,  630
+^Numpad9::    WinMove, A,,  686,   67,  607,  630
 
-^!Numpad1:: WinMove, A,, 76,83,802,602
-^!Numpad2:: WinMove,A,, 890,83,400,295
-^!Numpad3:: WinMove, A,, 890,390,400,295
-^!Numpad4:: WinMove,A,, 483,122,400,502
-^!Numpad5:: WinMove,A,, 73,86,406,575
-^!Numpad6:: WinMove,A,, 887,86,406,575
-^!Numpad7:: WinMove,A,, 12,12,866,744
-^!Numpad8:: WinMove,A,, 483,86,400,575
-^!Numpad9:: WinMove,A,, 483,111,400,547
+^!Numpad1::   WinMove, A,,   76,   92,  802,  602
+^!Numpad2::   WinMove, A,,  890,   92,  400,  295
+^!Numpad3::   WinMove, A,,  890,  399,  400,  295
+^!Numpad4::   WinMove, A,,  483,  131,  400,  502
+^!Numpad5::   WinMove, A,,   73,   95,  406,  575
+^!Numpad6::   WinMove, A,,  887,   95,  406,  575
+^!Numpad7::   WinMove, A,,   12,   21,  866,  744
+^!Numpad8::   WinMove, A,,  483,   95,  400,  575
+^!Numpad9::   WinMove, A,,  483,  120,  400,  547
 
-^NumpadEnd:: WinMove,A,, 153,118,648,510
-^NumpadLeft:: WinMove,A,, 890,83,400,602
+^NumpadEnd::  WinMove, A,,  153,  127,  648,  510
+^NumpadLeft:: WinMove, A,,  890,   92,  400,  602
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
