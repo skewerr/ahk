@@ -25,8 +25,12 @@ WorkId := 1
 
 
 #Numpad1::
+    prevWall := Wallp%WorkId%
     Switch(1)
-    Run, C:\bbZero\bsetbg.exe -full %Wallp1%
+    
+    if (Wallp1 != prevWall)
+        Run, C:\bbZero\bsetbg.exe -full %Wallp1%
+    
     Send #{Numpad1}
     GetKeyState, state, #
     if state = D
@@ -34,8 +38,12 @@ WorkId := 1
 return
 
 #Numpad2::
+    prevWall := Wallp%WorkId%
     Switch(2)
-    Run, C:\bbZero\bsetbg.exe -full %Wallp2%
+    
+    if (Wallp2 != prevWall)
+        Run, C:\bbZero\bsetbg.exe -full %Wallp2%
+    
     Send #{Numpad2}
     GetKeyState, state, #
     if state = D
@@ -43,8 +51,12 @@ return
 return
 
 #Numpad3::
+    prevWall := Wallp%WorkId%
     Switch(3)
-    Run, C:\bbZero\bsetbg.exe -full %Wallp3%
+    
+    if (Wallp3 != prevWall)
+        Run, C:\bbZero\bsetbg.exe -full %Wallp3%
+    
     Send #{Numpad3}
     GetKeyState, state, #
     if state = D
@@ -52,8 +64,12 @@ return
 return
 
 #Numpad4::
+    prevWall := Wallp%WorkId%
     Switch(4)
-    Run, C:\bbZero\bsetbg.exe -full %Wallp4%
+    
+    if (Wallp4 != prevWall)
+        Run, C:\bbZero\bsetbg.exe -full %Wallp4%
+    
     Send #{Numpad4}
     GetKeyState, state, #
     if state = D
@@ -61,8 +77,12 @@ return
 return
 
 #Numpad5::
+    prevWall := Wallp%WorkId%
     Switch(5)
-    Run, C:\bbZero\bsetbg.exe -full %Wallp5%
+    
+    if (Wallp5 != prevWall)
+        Run, C:\bbZero\bsetbg.exe -full %Wallp5%
+    
     Send #{Numpad5}
     GetKeyState, state, #
     if state = D
