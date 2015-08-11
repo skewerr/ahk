@@ -6,14 +6,27 @@ SetTitleMatchMode 1
 
 AIMP = ahk_class TAIMPMainForm
 ATray = ahk_class TAIMPTrayControl
-HexC = HexChat: 
+HexC = HexChat:
+
+Wallp1 = bbZero\#65.png
+Wallp2 = bbZero\#65.png
+Wallp3 = bbZero\#65.png
+Wallp4 = bbZero\#66.png
+Wallp5 = bbZero\#66.png
 
 WorkId := 1
 
-; Hotkeys
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;                                  ;
+;              HOTKEYS             ;
+;                                  ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 #Numpad1::
     Switch(1)
+    Run, C:\bbZero\bsetbg.exe -full %Wallp1%
     Send #{Numpad1}
     GetKeyState, state, #
     if state = D
@@ -22,6 +35,7 @@ return
 
 #Numpad2::
     Switch(2)
+    Run, C:\bbZero\bsetbg.exe -full %Wallp2%
     Send #{Numpad2}
     GetKeyState, state, #
     if state = D
@@ -30,6 +44,7 @@ return
 
 #Numpad3::
     Switch(3)
+    Run, C:\bbZero\bsetbg.exe -full %Wallp3%
     Send #{Numpad3}
     GetKeyState, state, #
     if state = D
@@ -38,6 +53,7 @@ return
 
 #Numpad4::
     Switch(4)
+    Run, C:\bbZero\bsetbg.exe -full %Wallp4%
     Send #{Numpad4}
     GetKeyState, state, #
     if state = D
@@ -46,26 +62,58 @@ return
 
 #Numpad5::
     Switch(5)
+    Run, C:\bbZero\bsetbg.exe -full %Wallp5%
     Send #{Numpad5}
     GetKeyState, state, #
     if state = D
         Send {# UP}
 return
 
+; Switch between AIMP states.
+
 !Numpad0::
     AIMPswitch()
 return
 
-; Functions
+; Switch between wallpapers on current homescreen.
+
+#+W::
+    Wall := Wallp%WorkId%
+    Wall1 = bbZero\#65.png
+    Wall2 = bbZero\#66.png
+    
+    if (Wall = Wall1)
+    {
+        Wallp%WorkId% = bbZero\#66.png
+        Wall := Wallp%WorkId%
+        Run, C:\bbZero\bsetbg.exe -full %Wall%
+        MsgBox, Wallpaper set to #66.png.
+    }
+    else
+    {
+        Wallp%WorkId% = bbZero\#65.png
+        Wall := Wallp%WorkId%
+        Run, C:\bbZero\bsetbg.exe -full %Wall%
+        MsgBox, Wallpaper set to #65.png.
+    }
+return
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;                                  ;
+;            FUNCTIONS             ;
+;                                  ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 AIMPswitch()
 {
     global
-    
+
     if WinExist("ahk_class TAIMPMainForm")
     {
         Send !{Numpad0}
-        
+
         WinActivate, %ATray%
         WinMove, %ATray%,, Xtray%WorkId%, Ytray%WorkId%, Wtray%WorkId%, Htray%WorkId%
     }
@@ -85,20 +133,20 @@ AIMPswitch()
 Switch(n)
 {
     global
-    
+
     WinGet, HexStat%WorkId%, MinMax, %HexC%
     IfEqual, HexStat%WorkId%, -1, WinRestore, %HexC%
     WinGetPos, Xhex%WorkId%, Yhex%WorkId%, Whex%WorkId%, Hhex%WorkId%, %HexC%
-    
+
     if WinExist("ahk_class TAIMPMainForm")
     {
         WinGetPos, Xaimp%WorkId%, Yaimp%WorkId%, Waimp%WorkId%, Haimp%WorkId%, %AIMP%
         AIMPStat%WorkId% := 1
-        
+
         if (AIMPStat%n% = 0)
         {
             Send !{Numpad0}
-            
+
             WinActivate, ahk_class TAIMPTrayControl
             WinMove, %ATray%,, Xtray%n%, Ytray%n%, Wtray%n%, Htray%n%
         }
@@ -117,7 +165,7 @@ Switch(n)
         WinActivate, %ATray%
         WinGetPos, Xtray%WorkId%, Ytray%WorkId%, Wtray%WorkId%, Htray%WorkId%, %ATray%
         AIMPStat%WorkId% := 0
-        
+
         if (AIMPStat%n% = 0)
         {
             WinActivate, %ATray%
@@ -140,7 +188,7 @@ Switch(n)
     else
     {
         AIMPStat%WorkId% := 2
-        
+
         if (AIMPStat%n% = 0)
         {
             Send !{Numpad0}
@@ -159,10 +207,10 @@ Switch(n)
             WinMove, %AIMP%,, Xaimp%n%, Yaimp%n%, Waimp%n%, Haimp%n%
         }
     }
-    
+
     WinMove, %HexC%,, Xhex%n%, Yhex%n%, Whex%n%, Hhex%n%
     IfEqual, HexStat%n%, -1, WinMinimize, %HexC%
     IfEqual, HexStat%n%, 0, WinRestore, %HexC%
-    
+
     WorkId = %n%
 }
