@@ -77,28 +77,28 @@ return
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-^Numpad1::    WinMove, A,,   73,   67,  808,  630
-^Numpad2::    WinMove, A,,  887,   67,  406,  323
-^Numpad3::    WinMove, A,,  887,  374,  406,  323
-^Numpad4::    WinMove, A,,  887,   67,  406,  630
-^Numpad5::    WinMove, A,,   76,   92, 1214,  602
-^Numpad6::    WinMove, A,,   74,   68,  806,  628
-^Numpad7::    WinMove, A,,   73,   67, 1220,  630
-^Numpad8::    WinMove, A,,   73,   67,  607,  630
-^Numpad9::    WinMove, A,,  686,   67,  607,  630
+^Numpad1::    WinMove, A,,   73,   68,  808,  630
+^Numpad2::    WinMove, A,,  887,   68,  406,  323
+^Numpad3::    WinMove, A,,  887,  375,  406,  323
+^Numpad4::    WinMove, A,,  887,   68,  406,  630
+^Numpad5::    WinMove, A,,   76,   93, 1214,  602
+^Numpad6::    WinMove, A,,   74,   69,  806,  628
+^Numpad7::    WinMove, A,,   73,   68, 1220,  630
+^Numpad8::    WinMove, A,,   73,   68,  607,  630
+^Numpad9::    WinMove, A,,  686,   68,  607,  630
 
-^!Numpad1::   WinMove, A,,   76,   92,  802,  602
-^!Numpad2::   WinMove, A,,  890,   92,  400,  295
-^!Numpad3::   WinMove, A,,  890,  399,  400,  295
-^!Numpad4::   WinMove, A,,  483,  131,  400,  502
-^!Numpad5::   WinMove, A,,   73,   95,  406,  575
-^!Numpad6::   WinMove, A,,  887,   95,  406,  575
-^!Numpad7::   WinMove, A,,   12,   21,  866,  744
-^!Numpad8::   WinMove, A,,  483,   95,  400,  575
-^!Numpad9::   WinMove, A,,  483,  120,  400,  547
+^!Numpad1::   WinMove, A,,   76,   93,  802,  602
+^!Numpad2::   WinMove, A,,  890,   93,  400,  295
+^!Numpad3::   WinMove, A,,  890,  400,  400,  295
+^!Numpad4::   WinMove, A,,  483,  132,  400,  502
+^!Numpad5::   WinMove, A,,   73,   96,  406,  575
+^!Numpad6::   WinMove, A,,  887,   96,  406,  575
+^!Numpad7::   WinMove, A,,   12,   22,  866,  744
+^!Numpad8::   WinMove, A,,  483,   96,  400,  575
+^!Numpad9::   WinMove, A,,  483,  121,  400,  547
 
-^NumpadEnd::  WinMove, A,,  153,  127,  648,  510
-^NumpadLeft:: WinMove, A,,  890,   92,  400,  602
+^NumpadEnd::  WinMove, A,,  153,  128,  648,  510
+^NumpadLeft:: WinMove, A,,  890,   93,  400,  602
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -136,7 +136,7 @@ return
     {
       run C:\Users\spoonm\AppData\Roaming\Microsoft\Windows\Libraries\
       WinWait, ahk_class CabinetWClass
-      WinMove, ahk_class CabinetWClass,, 887,67,406,323
+      WinMove, ahk_class CabinetWClass,, 887,68,406,323
       MacType() ; Restart MacType rendering.
       WinActivate, ahk_class CabinetWClass
     }
@@ -151,7 +151,16 @@ return
 
 
 ; Restart MacType rendering.
-^!r:: MacType()
+CapsLock::
+    MacType()
+    GetKeyState, stateCtrl, ^
+    GetKeyState, stateAlt, !
+    
+    if (stateCtrl == D)
+        Send {^ UP}
+    if (stateAlt == D)
+        Send {! UP}
+return
 
 ; Center active window.
 
@@ -192,6 +201,18 @@ RControl & W:: SendInput ?
 ; Toggle menu bar on active window.
 
 ^+p:: ToggleMenu( WinExist("A") )
+
+; Change my taskbar border to white on win maximize
+
+~#Up::
+    Run, C:\bbZero\blackbox.exe -exec @BBInterface Control SetAgent Border Image Bitmap "C:\bbZero\barw.png"
+return
+
+; Change my taskbar border to black on win minimize
+
+~#Down::
+    Run, C:\bbZero\blackbox.exe -exec @BBInterface Control SetAgent Border Image Bitmap "C:\bbZero\bar.png"
+return
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -273,13 +294,11 @@ MacType()
 #IfWinActive, ahk_class CabinetWClass
 
 ; Make a new folder.
-
-^n::
+^z::
     SendInput !FWF
 return
 
 ; Rename active item.
-
 CapsLock:: SendInput {F2}
 
 #IfWinActive
@@ -304,8 +323,5 @@ return
 
 ; Disable Ctrl+W
 ^W:: return
-
-; Make CapsLock Tab.
-Capslock:: SendInput {Tab}
 
 #IfWinActive
