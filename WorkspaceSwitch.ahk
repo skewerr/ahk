@@ -33,7 +33,7 @@ WorkId := 1
     
     Send #{Numpad1}
     GetKeyState, state, #
-    if state = D
+    if (state == D)
         Send {# UP}
 return
 
@@ -46,7 +46,7 @@ return
     
     Send #{Numpad2}
     GetKeyState, state, #
-    if state = D
+    if (state == D)
         Send {# UP}
 return
 
@@ -59,7 +59,7 @@ return
     
     Send #{Numpad3}
     GetKeyState, state, #
-    if state = D
+    if (state == D)
         Send {# UP}
 return
 
@@ -72,7 +72,7 @@ return
     
     Send #{Numpad4}
     GetKeyState, state, #
-    if state = D
+    if (state == D)
         Send {# UP}
 return
 
@@ -85,7 +85,7 @@ return
     
     Send #{Numpad5}
     GetKeyState, state, #
-    if state = D
+    if (state == D)
         Send {# UP}
 return
 
