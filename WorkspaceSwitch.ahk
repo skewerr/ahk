@@ -1,12 +1,16 @@
 #NoEnv
 SendMode Input
 SetTitleMatchMode 1
+CoordMode, Mouse, Screen
 
 ; Variables
 
 AIMP = ahk_class TAIMPMainForm
 ATray = ahk_class TAIMPTrayControl
 HexC = HexChat:
+
+HexXM = 0
+HexYM = 0
 
 Wallp1 = bbZero\#65.png
 Wallp2 = bbZero\#65.png
@@ -92,7 +96,8 @@ return
 ; Switch between AIMP states.
 
 !Numpad0::
-    AIMPswitch()
+    if ProcessExist("AIMP3.exe")
+        AIMPswitch()
 return
 
 ; Switch between wallpapers on current homescreen.
@@ -118,12 +123,44 @@ return
     }
 return
 
+; Store hexchat tray icon position.
+
++CapsLock::
+    MouseGetPos, HexXM, HexYM
+    MsgBox, Got X and Y of hexchat tray icon.
+return
+
+; Minimize/restore hexchat to/from tray.
+
+^+CapsLock::
+    hTray()
+return
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;                                  ;
 ;            FUNCTIONS             ;
 ;                                  ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+hTray()
+{
+    global
+    
+    MouseGetPos, X, Y
+    MouseMove, 0, 755, 0
+    Sleep 10
+    MouseMove, %HexXM%,%HexYM%, 0
+    SendInput {LButton}
+    MouseMove, %X%, %Y%, 0
+}
+
+ProcessExist(Name)
+{
+	Process,Exist,%Name%
+	return Errorlevel
+}
 
 
 AIMPswitch()
@@ -150,14 +187,26 @@ AIMPswitch()
     }
 }
 
+
 Switch(n)
 {
     global
+    
+    ; Grabbing status of hexchat if running.
+    
+    if ProcessExist("hexchat.exe")
+    {
+        if WinExist(HexC)
+        {
+            HexStat%WorkId% = 1
+            WinGetPos, Xhex%WorkId%, Yhex%WorkId%, Whex%WorkId%, Hhex%WorkId%, %HexC%
+        }
+        else
+            HexStat%WorkId% = 0
+    }
 
-    WinGet, HexStat%WorkId%, MinMax, %HexC%
-    IfEqual, HexStat%WorkId%, -1, WinRestore, %HexC%
-    WinGetPos, Xhex%WorkId%, Yhex%WorkId%, Whex%WorkId%, Hhex%WorkId%, %HexC%
-
+    ; Grabbing status of AIMP3 if running.
+    
     if WinExist("ahk_class TAIMPMainForm")
     {
         WinGetPos, Xaimp%WorkId%, Yaimp%WorkId%, Waimp%WorkId%, Haimp%WorkId%, %AIMP%
@@ -182,7 +231,8 @@ Switch(n)
     }
     else if WinExist("ahk_class TAIMPTrayControl")
     {
-        WinActivate, %ATray%
+        ; WinActivate, %ATray%
+        
         WinGetPos, Xtray%WorkId%, Ytray%WorkId%, Wtray%WorkId%, Htray%WorkId%, %ATray%
         AIMPStat%WorkId% := 0
 
@@ -199,38 +249,37 @@ Switch(n)
         }
         else if (AIMPStat%n% = 2)
         {
-            Send !{Numpad0}
-            WinWait, %AIMP%
             Send !{Numpad1}
-            Send !{Numpad0}
         }
     }
-    else
+    else if ProcessExist("AIMP3.exe")
     {
         AIMPStat%WorkId% := 2
 
         if (AIMPStat%n% = 0)
         {
-            Send !{Numpad0}
-            WinWait, %AIMP%
             Send !{Numpad1}
-            Send !{Numpad0}
-            Sleep 200
+            WinWait, %ATray%
             WinActivate, ahk_class TAIMPTrayControl
             WinMove, %ATray%,, Xtray%n%, Ytray%n%, Wtray%n%, Htray%n%
         }
         else if (AIMPStat%n% = 1)
         {
             Send !{Numpad0}
-            WinWait, %AIMP%
             Send !{Numpad1}
             WinMove, %AIMP%,, Xaimp%n%, Yaimp%n%, Waimp%n%, Haimp%n%
         }
     }
-
-    WinMove, %HexC%,, Xhex%n%, Yhex%n%, Whex%n%, Hhex%n%
-    IfEqual, HexStat%n%, -1, WinMinimize, %HexC%
-    IfEqual, HexStat%n%, 0, WinRestore, %HexC%
+    
+    ; Changing status of hexchat if running.
+    
+    if ProcessExist("hexchat.exe")
+    {
+        if (HexStat%n% != HexStat%WorkId%)
+            hTray()
+        
+        IfEqual, HexStat%n%, 1, WinMove, %HexC%,, Xhex%n%, Yhex%n%, Whex%n%, Hhex%n%
+    }
 
     WorkId = %n%
 }
