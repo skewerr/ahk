@@ -2,8 +2,12 @@
 
 CoordMode, Mouse, Screen
 SendMode Input
+SetTitleMatchMode 1
 #InstallKeybdHook
 #NoEnv
+
+; Global Variables
+SysMonitor := 0
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -153,13 +157,21 @@ return
 ; Restart MacType rendering.
 CapsLock::
     MacType()
-    GetKeyState, stateCtrl, ^
-    GetKeyState, stateAlt, !
-    
-    if (stateCtrl == D)
-        Send {^ UP}
-    if (stateAlt == D)
-        Send {! UP}
+return
+
+^CapsLock::
+    if (SysMonitor == 1)
+    {
+        Run, C:\bbZero\blackbox.exe -exec @BBInterface Control SetWindowProperty SysMon2 IsVisible false
+        Run, C:\bbZero\blackbox.exe -exec @BBInterface Control SetWindowProperty SystemMonitor IsVisible false
+        SysMonitor := 0
+    }
+    else
+    {
+        Run, C:\bbZero\blackbox.exe -exec @BBInterface Control SetWindowProperty SysMon2 IsVisible true
+        Run, C:\bbZero\blackbox.exe -exec @BBInterface Control SetWindowProperty SystemMonitor IsVisible true
+        SysMonitor := 1
+    }
 return
 
 ; Center active window.
@@ -174,11 +186,13 @@ return
     MsgBox, X: %X%, Y: %Y%, W: %W%, H: %H%
 return
 
-; Show current pointer coordinates.
+; Show current pointer coordinates and active
+; window coordinates.
 
 ^+m::
-    MouseGetPos, X, Y
-    MsgBox, X: %X% Y: %Y%
+    MouseGetPos, Xm, Ym
+    WinGetPos, X, Y, W, H, A
+    MsgBox, Mouse: %Xm%, %Ym%`nWindow: %X%, %Y%, %W%, %H%
 return
 
 ; Show current active window class.
@@ -251,7 +265,7 @@ ToggleMenu( hWin )
 CenterWindow(WinTitle)
 {
     WinGetPos,,, Width, Height, %WinTitle%
-    WinMove, %WinTitle%,, (A_ScreenWidth/2)-(Width/2), (A_ScreenHeight/2)-(Height/2)-11
+    WinMove, %WinTitle%,, (A_ScreenWidth/2)-(Width/2), (A_ScreenHeight/2)-(Height/2)-1
 }
 
 ; Center a window relative to tiling position 1.
@@ -259,7 +273,7 @@ CenterWindow(WinTitle)
 CenterWindowOne(WinTitle)
 {
     WinGetPos,,, Width, Height, %WinTitle%
-    WinMove, %WinTitle%,, (A_ScreenWidth/2)-(Width/2)-206, (A_ScreenHeight/2)-(Height/2)-11
+    WinMove, %WinTitle%,, (A_ScreenWidth/2)-(Width/2)-206, (A_ScreenHeight/2)-(Height/2)-1
 }
 
 ; Restart MacType rendering through tray icon.
@@ -271,12 +285,12 @@ MacType()
     MouseMove, 0,755, 0
     Sleep 10
     MouseMove, 28, 755, 0
-    Sleep 100
+    Sleep 10
     SendInput {RButton}
-    Sleep 200
+    Sleep 50
     SendInput r
     MouseMove, %X%, %Y%, 0
-    Sleep 50
+    Sleep 10
     Class = ahk_class %windowClass%
     WinActivate, %Class%
 }
@@ -319,7 +333,7 @@ return
 
 ; HexChat
 
-#IfWinActive ahk_class gdkWindowToplevel
+#IfWinActive, ahk_class gdkWindowToplevel
 
 ; Disable Ctrl+W
 ^W:: return
