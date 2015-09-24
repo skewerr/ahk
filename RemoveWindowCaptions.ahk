@@ -67,7 +67,7 @@ AdjustWindow(id)
     ; Uncomment this and comment the above if you don't want it to work on every window
     If WinClass In % "MozillaWindowClass"
     {
-        Browser := "Pale Moon"
+        Browser := "Vimperator"
         IfNotInString, WindowTitle, %Browser%
         {
             WinSet, Style, -0xC00000, %WinTitle%
